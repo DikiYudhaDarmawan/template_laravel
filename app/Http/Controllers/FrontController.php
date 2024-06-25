@@ -16,4 +16,10 @@ class FrontController extends Controller
     public function contact(){
         return view('contact');
     }
+    public function shop(){
+        return view('shop');
+    }
+    public function produkinfo(){
+        return view('produkinfo');
+    }
 }

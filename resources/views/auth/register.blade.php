@@ -100,9 +100,9 @@
                         <form id="formAuthentication" class="mb-3" action="{{ route('register') }}" method="POST">
                             @csrf
                             <div class="form-floating form-floating-outline mb-3">
-                                <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                    id="username" name="name" placeholder="Enter your username" autofocus />
-                                <label for="username">Username</label>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror""
+                                    id="username" name="name" placeholder="Enter your name" autofocus />
+                                <label for="username">name</label>
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -110,7 +110,7 @@
                                 @enderror
                             </div>
                             <div class="form-floating form-floating-outline mb-3">
-                                <input type="text" class="form-control  @error('email') is-invalid @enderror"
+                                <input type="text" class="form-control @error('email') is-invalid @enderror""
                                     id="email" name="email" placeholder="Enter your email" />
                                 <label for="email">Email</label>
                                 @error('email')
@@ -122,7 +122,9 @@
                             <div class="mb-3 form-password-toggle">
                                 <div class="input-group input-group-merge">
                                     <div class="form-floating form-floating-outline">
-                                        <input type="password" id="password" class="form-control " name="password"
+                                        <input type="password" id="password"
+                                            class="form-control @error('password') is-invalid @enderror""
+                                            name="password"
                                             placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                             aria-describedby="password" />
                                         <label for="password">Password</label>
@@ -139,17 +141,11 @@
                             <div class="mb-3 form-password-toggle">
                                 <div class="input-group input-group-merge">
                                     <div class="form-floating form-floating-outline">
-                                        <input type="password_confirmation" id="password_confirmation"
-                                            class="form-control  @error('password_confirmation') is-invalid @enderror"
-                                            name="password"
+                                        <input type="password" id="password_confirmation" class="form-control"
+                                            name="password_confirmation"
                                             placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                            aria-describedby="password" />
-                                        <label for="password">Password Confirmation</label>
-                                        @error('password_confirmation')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                            aria-describedby="password_confirm" />
+                                        <label for="password_confirm">Password confirmation</label>
                                     </div>
                                     <span class="input-group-text cursor-pointer"><i
                                             class="mdi mdi-eye-off-outline"></i></span>
@@ -171,7 +167,7 @@
 
                         <p class="text-center">
                             <span>Already have an account?</span>
-                            <a href="{{ url('login') }}">
+                            <a href="auth-login-basic.html">
                                 <span>Sign in instead</span>
                             </a>
                         </p>

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontController;
+use App\Http\Middleware\IsAdmin;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +31,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 Route::get('/', [FrontController::class, 'index']);
 Route::get('about', [FrontController::class, 'about']);
 Route::get('contact', [FrontController::class, 'contact']);
+Route::get('shop', [FrontController::class, 'shop']);
+Route::get('produkinfo', [FrontController::class, 'produkinfo']);
+
+//backend
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', IsAdmin::class]], function () {
+    Route::get('/', function () {
+        return view('admin.index');
+    });
+    // backnd lainnya
+    Route::resource('user', App\Http\Controllers\UsersController::class);
+});
