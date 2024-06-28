@@ -1,9 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Alert;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -15,6 +16,7 @@ class UsersController extends Controller
     public function index()
     {
         $users = User::all();
+        confirmDelete('Delete', 'yakin?');
         return view('admin.user.index', compact('users'));
     }
 
@@ -36,7 +38,21 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:users,email',
+            'password' => 'required|string|min:8',
+        ]);
+
+        $user = new User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->isAdmin = $request->isAdmin;
+        $user->save();
+
+        Alert::success('success', "data berhasil ditambah")->autoClose(1000);
+        return redirect()->route('user.index');
     }
 
     /**
@@ -58,7 +74,8 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+        return view('admin.user.edit', compact('user'));
     }
 
     /**
@@ -70,7 +87,23 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:users,email,' . $id,
+            'password' => 'nullable|string|min:8',
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+        $user->isAdmin = $request->isAdmin;
+        $user->save();
+        Alert::success('success', "data berhasil diubah")->autoClose(1000);
+
+        return redirect()->route('user.index');
     }
 
     /**
@@ -81,6 +114,11 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        Alert::success('success', "data berhasil dihapus")->autoClose(1000);
+
+        return redirect()->route('user.index');
     }
 }
