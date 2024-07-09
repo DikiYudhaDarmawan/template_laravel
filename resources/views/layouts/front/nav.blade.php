@@ -224,7 +224,6 @@
                                             </svg>
                                         </span>
                                     </div>
-
                                 </div>
                                 <div class="cart-wrapper-section">
                                     <div class="wrapper-line"></div>

@@ -27,15 +27,13 @@
                             form.method = 'POST';
                             form.innerHTML = `
                             @csrf
-                            @method('DELETE')
-                        `;
+                            @method('DELETE')`
                             document.body.appendChild(form);
                             form.submit();
                         }
                     });
                 }
             });
-
             @if (Session::has('alert.config'))
                 Swal.fire({!! Session::pull('alert.config') !!});
             @endif

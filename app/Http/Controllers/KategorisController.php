@@ -1,11 +1,12 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Alert;
-use App\Models\User;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 
-class UsersController extends Controller
+class KategorisController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +15,10 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $kategoris = Kategori::all();
         confirmDelete('Delete', 'yakin?');
-        return view('admin.user.index', compact('users'));
+        return view('admin.kategori.index', compact('kategoris'));
+
     }
 
     /**
@@ -26,7 +28,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('admin.user.create');
+        return view('admin.kategori.create');
     }
 
     /**
@@ -37,21 +39,12 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users,email',
-            'password' => 'required|string|min:8',
-        ]);
-
-        $user = new User;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->isAdmin = $request->isAdmin;
-        $user->save();
-
+        $kategoris = new Kategori;
+        $kategoris->category_name = $request->category_name;
         Alert::success('success', "data berhasil ditambah")->autoClose(1000);
-        return redirect()->route('user.index');
+        $kategoris->save();
+        return redirect()->route('kategori.index');
+
     }
 
     /**
@@ -73,8 +66,9 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $user = User::findOrFail($id);
-        return view('admin.user.edit', compact('user'));
+        $kategoris = kategori::findOrFail($id);
+        return view('admin.kategori.edit', compact('kategoris'));
+
     }
 
     /**
@@ -86,23 +80,13 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users,email,' . $id,
-            'password' => 'nullable|string|min:8',
-        ]);
-
-        $user = User::findOrFail($id);
-        $user->name = $request->name;
-        $user->email = $request->email;
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
-        }
-        $user->isAdmin = $request->isAdmin;
-        $user->save();
+        $kategoris = Kategori::findOrFail($id);
+        $kategoris->category_name = $request->category_name;
+        $kategoris->save();
         Alert::success('success', "data berhasil diubah")->autoClose(1000);
 
-        return redirect()->route('user.index');
+        return redirect()->route('kategori.index');
+
     }
 
     /**
@@ -113,11 +97,12 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
+        $kategoris = Kategori::findOrFail($id);
+        $kategoris->delete();
 
         Alert::success('success', "data berhasil dihapus")->autoClose(1000);
 
-        return redirect()->route('user.index');
+        return redirect()->route('kategori.index');
+
     }
 }

@@ -39,6 +39,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', IsAdmin::class]], fu
     Route::get('/', function () {
         return view('admin.index');
     });
-    // backnd lainnya
+    // backnd 
+    
     Route::resource('user', App\Http\Controllers\UsersController::class);
+    Route::resource('kategori', App\Http\Controllers\KategorisController::class);
+    Route::resource('produk', App\Http\Controllers\ProduksController::class);
 });
